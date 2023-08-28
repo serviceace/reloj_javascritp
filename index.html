@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relojito analogo</title>
+</head>
+<style>
+    html {
+        background-image: url(./fondo_aurora.jpeg);
+        background-size: cover;
+        font-family: 'helvetica neue';
+        text-align: center;
+        font-size: 10px;
+    }
+    body {
+        font-size: 2rem;
+        display: flex;
+        flex: 1;
+        min-height: 100vh;
+        align-items: center;
+    }
+
+    .Reloj {
+        width: 30rem;
+        height: 30rem;
+        border: 20px solid rgb(255, 255, 255);
+        border-radius: 50%;
+        margin: 50px auto;
+        position: relative;
+        padding: 2rem;
+        box-shadow: 
+                  0 0 0 4px rgba(0, 0, 0, 0.1),
+                  inset 0 0 0 0px white,
+                  inset 0 0 10px black,
+                  0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .Reloj-Cara {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transform: translateY(-3px);
+    }
+
+    .manecilla {
+        width: 50%;
+        height: 6px;
+        background: whitesmoke;
+        position: absolute;
+        top: 50%;
+        border-radius: 15px;
+        transform: rotate(90deg);
+        transform-origin: 100%;
+        transition: all 0.05s;
+        transition-timing-function: cubic-bezier(0.1, 2.7, 058, 1);
+        
+
+    }
+
+    .segundero {
+        background: red;
+    }
+
+    .minutero {
+        background: gray;
+    }
+
+</style>
+<body>
+    <div class="Reloj">
+        <div class="Reloj-Cara">
+            <div class="manecilla manecilla_hora"></div>
+            <div class="manecilla manecilla_minutos minutero"></div>
+            <div class="manecilla manecilla_segundos segundero"></div>
+        </div>
+    </div>
+
+    <audio class="sonido" src="./tick_tack.mp3"></audio>
+<script>
+const manecilla_segundos = document.querySelector('.manecilla_segundos');
+const manecilla_minutos = document.querySelector('.manecilla_minutos');
+const manecilla_hora = document.querySelector('.manecilla_hora');
+const sonido = document.querySelector('.sonido');
+
+    function setHora() {
+        const hora = new Date();
+        
+        const segundos = hora.getSeconds();
+        const segundosAngulo = ((segundos / 60) * 360) + 90; 
+        manecilla_segundos.style.transform = `rotate(${segundosAngulo}deg)`;
+
+        const minutos = hora.getMinutes();
+        const minutosAngulo = ((minutos / 60) * 360) + 90; 
+        manecilla_minutos.style.transform = `rotate(${minutosAngulo}deg)`;
+
+        const horas = hora.getHours();
+        const horasAngulo = ((horas / 12) * 360) + 90; 
+        manecilla_hora.style.transform = `rotate(${horasAngulo}deg)`;
+
+    }
+
+    function tick_tack() {
+        sonido.play();
+    }
+
+    setInterval(setHora, 1000);
+    setInterval(tick_tack, 1000);
+    
+</script>
+</body>
+</html>
